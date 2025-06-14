@@ -48,3 +48,4 @@ Com o banco de dados criado, populado e configurado, vá até o pacote "main" e 
 
 5º passo:
 Agora é só fazer login com algum usuário ou cadastrar um novo.
+Para uma melhor experiência, deixe em tela cheia.
