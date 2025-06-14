@@ -3,11 +3,13 @@ package view;
 import model.Aluno;
 import model.Tutor;
 import model.Usuario;
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import config.Conectante;
+import main.CapacitaGUI;
 
 import java.awt.*;
 import utils.SecurityUtils;

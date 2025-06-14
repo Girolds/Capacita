@@ -1,6 +1,6 @@
 package model;
 
-import static testeTerminal.Capacita.*;
+import static main.CapacitaTerminal.*;
 
 import java.sql.SQLException;
 import java.util.List;

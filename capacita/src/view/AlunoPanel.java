@@ -26,6 +26,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import config.Conectante;
+import main.CapacitaGUI;
 
 public class AlunoPanel extends JPanel {
     private Aluno loggedInAluno;

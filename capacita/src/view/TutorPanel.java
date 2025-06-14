@@ -5,6 +5,7 @@ import DAO.ModuloDAO;
 import DAO.PostagemDAO;
 import DAO.TutorDAO;
 import DAO.VideoAulaDAO;
+import main.CapacitaGUI;
 import model.Curso;
 import model.Modulo;
 import model.Postagem;

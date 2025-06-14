@@ -1,8 +1,12 @@
-package view;
+package main;
 
 import model.Aluno;
 import model.Tutor;
 import model.Usuario;
+import view.AlunoPanel;
+import view.CadastroPanel;
+import view.LoginPanel;
+import view.TutorPanel;
 
 import javax.swing.*;
 import java.awt.*;

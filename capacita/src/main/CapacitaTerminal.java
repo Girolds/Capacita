@@ -1,4 +1,4 @@
-package testeTerminal;
+package main;
 
 import DAO.AlunoDAO;
 import DAO.CursoDAO;
@@ -11,7 +11,7 @@ import model.Aluno;
 import model.Tutor;
 import model.Usuario;
 
-public class Capacita {
+public class CapacitaTerminal {
 	
 	  public static Scanner scanner = new Scanner(System.in);
 	    public static Usuario loggedInUser = null;

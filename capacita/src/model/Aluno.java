@@ -1,6 +1,6 @@
 package model;
 
-import static testeTerminal.Capacita.*;
+import static main.CapacitaTerminal.*;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
