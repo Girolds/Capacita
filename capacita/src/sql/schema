@@ -76,24 +76,3 @@ CREATE TABLE IF NOT EXISTS Videoaula (
     id_modulo INT NOT NULL,
     FOREIGN KEY (id_modulo) REFERENCES Modulo(id) ON DELETE CASCADE
 );
-
--- =====================================
--- Caso Precise Limpar o Banco de Dados:
--- =====================================
-
-SET FOREIGN_KEY_CHECKS = 0;
-
-TRUNCATE TABLE Videoaula;
-TRUNCATE TABLE Postagem;
-TRUNCATE TABLE UsuarioCurso;
-TRUNCATE TABLE Modulo;
-TRUNCATE TABLE Curso;
-TRUNCATE TABLE Aluno;
-TRUNCATE TABLE Tutor;
-TRUNCATE TABLE Usuario;
-
-SET FOREIGN_KEY_CHECKS = 1;
-
--- =====================================
-
-
