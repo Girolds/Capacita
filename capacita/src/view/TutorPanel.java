@@ -46,6 +46,7 @@ import DAO.ModuloDAO;
 import DAO.PostagemDAO;
 import DAO.TutorDAO;
 import DAO.VideoAulaDAO;
+import main.CapacitaGUI;
 import model.Curso;
 import model.Modulo;
 import model.Postagem;
@@ -54,24 +55,22 @@ import model.VideoAula;
 import utils.SecurityUtils;
 
 public class TutorPanel extends JPanel {
+	
     private Tutor loggedInTutor;
     private CapacitaGUI parentFrame;
-
     private CursoDAO cursoDAO = new CursoDAO();
     private ModuloDAO moduloDAO = new ModuloDAO();
     private PostagemDAO postagemDAO = new PostagemDAO();
     private TutorDAO tutorDAO = new TutorDAO();
     private VideoAulaDAO videoAulaDAO = new VideoAulaDAO();
-
+    
     private JList<Curso> myCoursesList;
     private DefaultListModel<Curso> myCoursesListModel;
     private CursoDetalhesPanelTutor cursoDetalhesPanelTutor;
-
     private JTextField createCourseTitleField;
     private JTextArea createCourseDescriptionArea;
     private JTextField createCourseAreaField;
     private JButton createCourseButton;
-
     private JComboBox<Curso> editDeleteCourseComboBox;
     private DefaultComboBoxModel<Curso> editDeleteCourseComboBoxModel;
     private JTextField editCourseTitleField;
@@ -79,13 +78,11 @@ public class TutorPanel extends JPanel {
     private JTextField editCourseAreaField;
     private JButton updateCourseButton;
     private JButton deleteCourseButton;
-
     private JComboBox<Curso> createModuloCourseComboBox;
     private DefaultComboBoxModel<Curso> createModuloCourseComboBoxModel;
     private JTextField createModuloTitleField;
     private JTextArea createModuloDescriptionArea;
     private JButton createModuloButton;
-
     private JComboBox<Curso> moduleCourseFilterComboBox;
     private DefaultComboBoxModel<Curso> moduleCourseFilterComboBoxModel;
     private JComboBox<Modulo> editDeleteModuloComboBox;
@@ -94,13 +91,11 @@ public class TutorPanel extends JPanel {
     private JTextArea editModuloDescriptionArea;
     private JButton updateModuloButton;
     private JButton deleteModuloButton;
-
     private JComboBox<Modulo> addVideoModuloComboBox;
     private DefaultComboBoxModel<Modulo> addVideoModuloComboBoxModel;
     private JTextField addVideoTitleField;
     private JTextField addVideoUrlField;
     private JButton addVideoButton;
-
     private JComboBox<Modulo> videoModuloFilterComboBox;
     private DefaultComboBoxModel<Modulo> videoModuloFilterComboBoxModel;
     private JComboBox<VideoAula> editDeleteVideoComboBox;
@@ -109,7 +104,6 @@ public class TutorPanel extends JPanel {
     private JTextField editVideoUrlField;
     private JButton updateVideoButton;
     private JButton deleteVideoButton;
-
     private JTextField createPostagemTitleField;
     private JTextArea createPostagemContentArea;
     private JRadioButton postagemForCourseRadio;
@@ -120,7 +114,6 @@ public class TutorPanel extends JPanel {
     private JComboBox<Modulo> postagemModuloComboBox;
     private DefaultComboBoxModel<Modulo> postagemModuloComboBoxModel;
     private JButton createPostagemButton;
-
     private JRadioButton editPostagemForCourseRadio;
     private JRadioButton editPostagemForModuloRadio;
     private ButtonGroup editPostagemTypeGroup;
@@ -134,17 +127,14 @@ public class TutorPanel extends JPanel {
     private JTextArea editPostagemContentArea;
     private JButton updatePostagemButton;
     private JButton deletePostagemButton;
-
     private JTextField nameProfileField;
     private JTextField emailProfileField;
     private JPasswordField passwordProfileField;
     private JTextField areaProfileField;
-
     private JPanel cardPanel;
     private CardLayout cardLayout;
-
     private SobrePanel sobrePanel;
-
+    
     private final Dimension fieldSize = new Dimension(250, 30);
     private final Dimension textAreaSize = new Dimension(250, 80);
     private final Font labelFont = new Font("Arial", Font.PLAIN, 12);
@@ -1011,10 +1001,10 @@ public class TutorPanel extends JPanel {
         profileOuterPanel.add(profilePanel, outerGbc);
         cardPanel.add(profileOuterPanel, "EditarPerfil");
 
-        // Inicialize SobrePanel
+    
         sobrePanel = new SobrePanel();
-        // Adicione SobrePanel ao cardPanel
-        cardPanel.add(sobrePanel, "Sobre");
+        
+        cardPanel.add(sobrePanel, "Sobre nós");
 
         cursoDetalhesPanelTutor = new CursoDetalhesPanelTutor(this);
         cardPanel.add(cursoDetalhesPanelTutor, "CourseDetails");

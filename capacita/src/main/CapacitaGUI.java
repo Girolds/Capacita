@@ -1,4 +1,4 @@
-package view;
+package main;
 
 import java.awt.CardLayout;
 
@@ -10,6 +10,10 @@ import javax.swing.SwingUtilities;
 import model.Aluno;
 import model.Tutor;
 import model.Usuario;
+import view.AlunoPanel;
+import view.CadastroPanel;
+import view.LoginPanel;
+import view.TutorPanel;
 
 public class CapacitaGUI extends JFrame {
 
@@ -39,7 +43,6 @@ public class CapacitaGUI extends JFrame {
         try {
 			tutorPanel = new TutorPanel(this);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 

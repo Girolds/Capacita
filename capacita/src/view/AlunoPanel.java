@@ -44,6 +44,7 @@ import DAO.ModuloDAO;
 import DAO.PostagemDAO;
 import DAO.VideoAulaDAO;
 import config.Conectante;
+import main.CapacitaGUI;
 import model.Aluno;
 import model.Curso;
 import utils.SecurityUtils;
@@ -509,12 +510,12 @@ public class AlunoPanel extends JPanel {
             passwordProfileField.setText("");
         });
         sidebarPanel.add(btnEditProfile);
-        sidebarPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Espaçamento entre botões
+        sidebarPanel.add(Box.createRigidArea(new Dimension(0, 5))); 
 
-        // Adicionando o botão "Sobre" à sidebar
-        JButton btnSobre = createSidebarButton("Sobre");
+        
+        JButton btnSobre = createSidebarButton("Sobre nós");
         btnSobre.addActionListener(e -> {
-            cardLayout.show(cardPanel, "Sobre"); // Mostra o painel "Sobre"
+            cardLayout.show(cardPanel, "Sobre"); 
         });
         sidebarPanel.add(btnSobre);
         sidebarPanel.add(Box.createVerticalGlue());

@@ -24,6 +24,7 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import config.Conectante;
+import main.CapacitaGUI;
 import model.Aluno;
 import model.Tutor;
 import model.Usuario;

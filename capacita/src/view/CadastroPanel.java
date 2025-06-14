@@ -23,6 +23,7 @@ import javax.swing.border.LineBorder;
 
 import DAO.AlunoDAO;
 import DAO.TutorDAO;
+import main.CapacitaGUI;
 import model.Aluno;
 import model.Tutor;
 import utils.SecurityUtils;

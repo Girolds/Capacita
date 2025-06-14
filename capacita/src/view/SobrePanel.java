@@ -55,7 +55,7 @@ public class SobrePanel extends JPanel {
         JTextArea descriptionArea = new JTextArea();
         descriptionArea.setText(
             "O Capacita+ é uma plataforma online dedicada a capacitar professores e profissionais da educação " +
-            "com foco total na **inclusão escolar**. Ele permite que tutores criem e gerenciem cursos, módulos, " +
+            "com foco total na inclusão escolar. Ele permite que tutores criem e gerenciem cursos, módulos, " +
             "videoaulas e materiais de apoio (postagens), enquanto os alunos podem se inscrever em cursos, " +
             "acessar o conteúdo e acompanhar seu progresso. Nosso objetivo é fornecer as ferramentas e o " +
             "conhecimento necessários para criar ambientes de aprendizado mais acessíveis e equitativos."
