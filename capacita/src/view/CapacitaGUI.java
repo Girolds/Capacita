@@ -1,15 +1,15 @@
-package main;
+package view;
+
+import java.awt.CardLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 import model.Aluno;
 import model.Tutor;
 import model.Usuario;
-import view.AlunoPanel;
-import view.CadastroPanel;
-import view.LoginPanel;
-import view.TutorPanel;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class CapacitaGUI extends JFrame {
 

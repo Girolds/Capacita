@@ -1,27 +1,57 @@
 package view;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Rectangle;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.sql.SQLException;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JRadioButton;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.border.TitledBorder;
+
 import DAO.CursoDAO;
 import DAO.ModuloDAO;
 import DAO.PostagemDAO;
 import DAO.TutorDAO;
 import DAO.VideoAulaDAO;
-import main.CapacitaGUI;
 import model.Curso;
 import model.Modulo;
 import model.Postagem;
 import model.Tutor;
 import model.VideoAula;
 import utils.SecurityUtils;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.util.List;
-import java.sql.SQLException;
 
 public class TutorPanel extends JPanel {
     private Tutor loggedInTutor;
@@ -113,6 +143,8 @@ public class TutorPanel extends JPanel {
     private JPanel cardPanel;
     private CardLayout cardLayout;
 
+    private SobrePanel sobrePanel;
+
     private final Dimension fieldSize = new Dimension(250, 30);
     private final Dimension textAreaSize = new Dimension(250, 80);
     private final Font labelFont = new Font("Arial", Font.PLAIN, 12);
@@ -139,9 +171,9 @@ public class TutorPanel extends JPanel {
             setBackground(Color.WHITE);
 
             setBorder(BorderFactory.createCompoundBorder(
-                    new LineBorder(new Color(200, 200, 200), 1),
-                    new EmptyBorder(5, 10, 5, 10)
-            ));
+                            new LineBorder(new Color(200, 200, 200), 1),
+                            new EmptyBorder(5, 10, 5, 10)
+                    ));
 
             titleLabel = new JLabel();
             titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -292,14 +324,13 @@ public class TutorPanel extends JPanel {
                     int clickX = e.getX();
                     int clickY = e.getY();
 
-                   
-                    int buttonsPanelHeight = tempRenderer.BUTTON_SIZE_DETAILS.height + 5; 
+                    int buttonsPanelHeight = tempRenderer.BUTTON_SIZE_DETAILS.height + 5;
                     int buttonsPanelY = cellBounds.y + cellBounds.height - buttonsPanelHeight;
-                    int currentButtonX = cellBounds.x + 10; 
+                    int currentButtonX = cellBounds.x + 10;
 
                     Rectangle detailsButtonArea = new Rectangle(currentButtonX, buttonsPanelY, tempRenderer.BUTTON_SIZE_DETAILS.width, tempRenderer.BUTTON_SIZE_DETAILS.height);
 
-                    currentButtonX += tempRenderer.BUTTON_SIZE_DETAILS.width + 5; 
+                    currentButtonX += tempRenderer.BUTTON_SIZE_DETAILS.width + 5;
 
                     Rectangle editButtonArea = new Rectangle(currentButtonX, buttonsPanelY, tempRenderer.BUTTON_SIZE_EDIT.width, tempRenderer.BUTTON_SIZE_EDIT.height);
 
@@ -320,19 +351,18 @@ public class TutorPanel extends JPanel {
         cardPanel.add(myTutorCoursesContent, "MeusCursosTutor");
 
 
-       
         JPanel manageCoursesPanel = new JPanel();
-        manageCoursesPanel.setLayout(new GridBagLayout()); 
+        manageCoursesPanel.setLayout(new GridBagLayout());
         manageCoursesPanel.setBackground(new Color(240, 248, 255));
         manageCoursesPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
         GridBagConstraints mainGbc = new GridBagConstraints();
-        mainGbc.insets = new Insets(10, 0, 10, 0); 
+        mainGbc.insets = new Insets(10, 0, 10, 0);
         mainGbc.fill = GridBagConstraints.HORIZONTAL;
         mainGbc.gridx = 0;
         mainGbc.weightx = 1.0;
 
-      
+
         JPanel createCourseSubPanel = new JPanel(new GridBagLayout());
         createCourseSubPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(65, 105, 225)), "Criar Novo Curso", TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14), new Color(65, 105, 225)));
         createCourseSubPanel.setBackground(Color.WHITE);
@@ -368,7 +398,7 @@ public class TutorPanel extends JPanel {
         mainGbc.gridy = 0;
         manageCoursesPanel.add(createCourseSubPanel, mainGbc);
 
-        
+
         JPanel editDeleteCourseSubPanel = new JPanel(new GridBagLayout());
         editDeleteCourseSubPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(65, 105, 225)), "Editar / Excluir Curso", TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14), new Color(65, 105, 225)));
         editDeleteCourseSubPanel.setBackground(Color.WHITE);
@@ -430,13 +460,12 @@ public class TutorPanel extends JPanel {
         cardPanel.add(manageCoursesPanel, "GerenciarCursos");
 
 
-        
         JPanel modulesPanel = new JPanel();
         modulesPanel.setLayout(new GridBagLayout());
         modulesPanel.setBackground(new Color(240, 248, 255));
         modulesPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        mainGbc.gridy = 0; 
+        mainGbc.gridy = 0;
         JPanel createModuloSubPanel = new JPanel(new GridBagLayout());
         createModuloSubPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(65, 105, 225)), "Criar Novo Módulo", TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14), new Color(50, 50, 150)));
         createModuloSubPanel.setBackground(Color.WHITE);
@@ -544,13 +573,13 @@ public class TutorPanel extends JPanel {
         modulesPanel.add(editDeleteModuloSubPanel, mainGbc);
         cardPanel.add(modulesPanel, "Modulos");
 
-       
+
         JPanel videoPanel = new JPanel();
-        videoPanel.setLayout(new GridBagLayout()); 
+        videoPanel.setLayout(new GridBagLayout());
         videoPanel.setBackground(new Color(240, 248, 255));
         videoPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        mainGbc.gridy = 0; 
+        mainGbc.gridy = 0;
         JPanel addVideoSubPanel = new JPanel(new GridBagLayout());
         addVideoSubPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(65, 105, 225)), "Adicionar Nova Videoaula", TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14), new Color(50, 50, 150)));
         addVideoSubPanel.setBackground(Color.WHITE);
@@ -662,13 +691,13 @@ public class TutorPanel extends JPanel {
         videoPanel.add(editDeleteVideoSubPanel, mainGbc);
         cardPanel.add(videoPanel, "Videoaulas");
 
-        
+
         JPanel postagemPanel = new JPanel();
         postagemPanel.setLayout(new GridBagLayout());
         postagemPanel.setBackground(new Color(240, 248, 255));
         postagemPanel.setBorder(new EmptyBorder(20, 20, 20, 20));
 
-        mainGbc.gridy = 0; 
+        mainGbc.gridy = 0;
         JPanel createPostagemSubPanel = new JPanel(new GridBagLayout());
         createPostagemSubPanel.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(new Color(65, 105, 225)), "Postar Novo Material", TitledBorder.LEFT, TitledBorder.TOP, new Font("Arial", Font.BOLD, 14), new Color(50, 50, 150)));
         createPostagemSubPanel.setBackground(Color.WHITE);
@@ -687,8 +716,8 @@ public class TutorPanel extends JPanel {
         postagemTypeGroup = new ButtonGroup();
         postagemForCourseRadio = new JRadioButton("Para Curso");
         postagemForModuloRadio = new JRadioButton("Para Módulo");
-        postagemForCourseRadio.setBackground(createPostagemSubPanel.getBackground()); 
-        postagemForModuloRadio.setBackground(createPostagemSubPanel.getBackground()); 
+        postagemForCourseRadio.setBackground(createPostagemSubPanel.getBackground());
+        postagemForModuloRadio.setBackground(createPostagemSubPanel.getBackground());
         postagemTypeGroup.add(postagemForCourseRadio);
         postagemTypeGroup.add(postagemForModuloRadio);
 
@@ -703,10 +732,10 @@ public class TutorPanel extends JPanel {
         postagemForCourseRadio.addActionListener(e -> {
             postagemCourseComboBox.setEnabled(true);
             postagemModuloComboBox.setEnabled(false);
-            postagemModuloComboBoxModel.removeAllElements(); 
+            postagemModuloComboBoxModel.removeAllElements();
         });
         postagemForModuloRadio.addActionListener(e -> {
-            postagemCourseComboBox.setEnabled(true); 
+            postagemCourseComboBox.setEnabled(true);
             postagemModuloComboBox.setEnabled(true);
             loadPostagemModulesForCourse();
         });
@@ -725,11 +754,11 @@ public class TutorPanel extends JPanel {
         cpGbc.gridx = 1; cpGbc.anchor = GridBagConstraints.WEST; cpGbc.weightx = 1.0; postagemModuloComboBoxModel = new DefaultComboBoxModel<>();
         postagemModuloComboBox = new JComboBox<>(postagemModuloComboBoxModel);
         postagemModuloComboBox.setPreferredSize(fieldSize); postagemModuloComboBox.setFont(fieldFont);
-       
+
         createPostagemSubPanel.add(postagemModuloComboBox, cpGbc);
 
-        postagemForCourseRadio.setSelected(true); 
-        postagemModuloComboBox.setEnabled(false); 
+        postagemForCourseRadio.setSelected(true);
+        postagemModuloComboBox.setEnabled(false);
 
         cpGbc.gridx = 0; cpGbc.gridy = 5; cpGbc.gridwidth = 2; cpGbc.anchor = GridBagConstraints.CENTER; cpGbc.weightx = 0;
         createPostagemButton = new JButton("Postar Material");
@@ -771,11 +800,11 @@ public class TutorPanel extends JPanel {
         edpGbc.gridx = 0; edpGbc.gridy = 0; edpGbc.gridwidth = 2; edpGbc.anchor = GridBagConstraints.WEST; edpGbc.weightx = 0; edpGbc.weighty = 0;
         editDeletePostagemSubPanel.add(editRadioPanel, edpGbc);
 
-       
+
         editPostagemForCourseRadio.addActionListener(e -> {
             editPostagemCourseFilterComboBox.setEnabled(true);
             editPostagemModuloFilterComboBox.setEnabled(false);
-            editPostagemModuloFilterComboBoxModel.removeAllElements(); 
+            editPostagemModuloFilterComboBoxModel.removeAllElements();
             try {
                 loadPostagensForEditDelete();
             } catch (Exception ex) {
@@ -784,10 +813,10 @@ public class TutorPanel extends JPanel {
             }
         });
         editPostagemForModuloRadio.addActionListener(e -> {
-            editPostagemCourseFilterComboBox.setEnabled(true); 
+            editPostagemCourseFilterComboBox.setEnabled(true);
             editPostagemModuloFilterComboBox.setEnabled(true);
             try {
-                loadEditPostagemModulesForCourse(); 
+                loadEditPostagemModulesForCourse();
                 loadPostagensForEditDelete();
             } catch (Exception ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar módulos/postagens: " + ex.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -829,7 +858,7 @@ public class TutorPanel extends JPanel {
         });
         editDeletePostagemSubPanel.add(editPostagemModuloFilterComboBox, edpGbc);
 
-        
+
         editPostagemForCourseRadio.setSelected(true);
         editPostagemModuloFilterComboBox.setEnabled(false);
 
@@ -897,9 +926,9 @@ public class TutorPanel extends JPanel {
         JPanel profilePanel = new JPanel(new GridBagLayout());
         profilePanel.setBackground(new Color(255, 255, 255));
         profilePanel.setBorder(BorderFactory.createCompoundBorder(
-                new LineBorder(new Color(150, 150, 150), 1),
-                new EmptyBorder(25, 25, 25, 25)
-        ));
+                        new LineBorder(new Color(150, 150, 150), 1),
+                        new EmptyBorder(25, 25, 25, 25)
+                ));
 
         GridBagConstraints profileGbc = new GridBagConstraints();
         profileGbc.insets = new Insets(10, 10, 10, 10);
@@ -982,6 +1011,10 @@ public class TutorPanel extends JPanel {
         profileOuterPanel.add(profilePanel, outerGbc);
         cardPanel.add(profileOuterPanel, "EditarPerfil");
 
+        // Inicialize SobrePanel
+        sobrePanel = new SobrePanel();
+        // Adicione SobrePanel ao cardPanel
+        cardPanel.add(sobrePanel, "Sobre");
 
         cursoDetalhesPanelTutor = new CursoDetalhesPanelTutor(this);
         cardPanel.add(cursoDetalhesPanelTutor, "CourseDetails");
@@ -1022,8 +1055,8 @@ public class TutorPanel extends JPanel {
                 e1.printStackTrace();
             }
             try {
-                loadAllModulesForComboBoxes(); 
-                loadModulesForEditDelete(); 
+                loadAllModulesForComboBoxes();
+                loadModulesForEditDelete();
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar todos os módulos: " + e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
@@ -1036,16 +1069,16 @@ public class TutorPanel extends JPanel {
         btnVideos.addActionListener(e -> {
             cardLayout.show(cardPanel, "Videoaulas");
             try {
-                loadCoursesIntoComboBoxes(); 
+                loadCoursesIntoComboBoxes();
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar cursos: " + e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
             }
             try {
                 loadAllModulesForComboBoxes();
-                loadVideosForEditDelete(); 
+                loadVideosForEditDelete();
             }
-             catch (Exception e1) {
+            catch (Exception e1) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar vídeos: " + e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
             }
@@ -1057,16 +1090,16 @@ public class TutorPanel extends JPanel {
         btnPostagens.addActionListener(e -> {
             cardLayout.show(cardPanel, "Postagens");
             try {
-                loadCoursesIntoComboBoxes(); 
+                loadCoursesIntoComboBoxes();
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar cursos: " + e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
             }
-           
+
             postagemForCourseRadio.setSelected(true);
             postagemCourseComboBox.setEnabled(true);
             postagemModuloComboBox.setEnabled(false);
-            postagemModuloComboBoxModel.removeAllElements(); 
+            postagemModuloComboBoxModel.removeAllElements();
 
             editPostagemForCourseRadio.setSelected(true);
             editPostagemCourseFilterComboBox.setEnabled(true);
@@ -1074,7 +1107,7 @@ public class TutorPanel extends JPanel {
             editPostagemModuloFilterComboBoxModel.removeAllElements();
 
             try {
-                loadPostagensForEditDelete(); 
+                loadPostagensForEditDelete();
             } catch (Exception e1) {
                 JOptionPane.showMessageDialog(this, "Erro ao carregar postagens: " + e1.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 e1.printStackTrace();
@@ -1094,7 +1127,16 @@ public class TutorPanel extends JPanel {
             passwordProfileField.setText("");
         });
         sidebarPanel.add(btnEditProfile);
-        sidebarPanel.add(Box.createVerticalGlue());
+        sidebarPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Espaçamento antes do novo botão
+
+        // Novo botão "Sobre"
+        JButton btnSobre = createSidebarButton("Sobre");
+        btnSobre.addActionListener(e -> {
+            cardLayout.show(cardPanel, "Sobre");
+        });
+        sidebarPanel.add(btnSobre);
+        sidebarPanel.add(Box.createVerticalGlue()); // Empurra os botões para cima
+
 
         cardLayout.show(cardPanel, "MeusCursosTutor");
 
@@ -1110,8 +1152,8 @@ public class TutorPanel extends JPanel {
 
         try {
             loadMyTutorCourses();
-            loadCoursesIntoComboBoxes(); 
-            loadAllModulesForComboBoxes(); 
+            loadCoursesIntoComboBoxes();
+            loadAllModulesForComboBoxes();
             setupComboBoxRenderers();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao inicializar painel do tutor: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -1137,8 +1179,8 @@ public class TutorPanel extends JPanel {
             ((JLabel) getComponent(0)).setText("Bem-vindo(a), Tutor(a) " + loggedInTutor.getNome() + "!");
             try {
                 loadMyTutorCourses();
-                loadCoursesIntoComboBoxes(); 
-                loadAllModulesForComboBoxes(); 
+                loadCoursesIntoComboBoxes();
+                loadAllModulesForComboBoxes();
 
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erro ao definir tutor logado: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -1258,7 +1300,7 @@ public class TutorPanel extends JPanel {
             editDeleteModuloComboBox.setSelectedItem(moduloToSelect);
             loadModuloDetailsForEdit();
         } else {
-             JOptionPane.showMessageDialog(this, "Módulo não encontrado para edição.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Módulo não encontrado para edição.", "Aviso", JOptionPane.WARNING_MESSAGE);
         }
     }
 
@@ -1413,7 +1455,7 @@ public class TutorPanel extends JPanel {
 
         List<Curso> cursos = cursoDAO.listarPorTutor(loggedInTutor.getId());
 
-       
+
         editDeleteCourseComboBoxModel.removeAllElements();
         createModuloCourseComboBoxModel.removeAllElements();
         postagemCourseComboBoxModel.removeAllElements();
@@ -1428,19 +1470,19 @@ public class TutorPanel extends JPanel {
             moduleCourseFilterComboBoxModel.addElement(curso);
         }
 
-        
+
         setComboBoxDefaultSelection(editDeleteCourseComboBox);
         setComboBoxDefaultSelection(createModuloCourseComboBox);
         setComboBoxDefaultSelection(postagemCourseComboBox);
         setComboBoxDefaultSelection(editPostagemCourseFilterComboBox);
         setComboBoxDefaultSelection(moduleCourseFilterComboBox);
 
-     
-        loadCourseDetailsForEdit(); 
-        loadModulesForEditDelete(); 
-        loadPostagemModulesForCourse(); 
-        loadEditPostagemModulesForCourse(); 
-        loadAllModulesForComboBoxes(); 
+
+        loadCourseDetailsForEdit();
+        loadModulesForEditDelete();
+        loadPostagemModulesForCourse();
+        loadEditPostagemModulesForCourse();
+        loadAllModulesForComboBoxes();
     }
 
 
@@ -1603,7 +1645,7 @@ public class TutorPanel extends JPanel {
         }
         loadModuloDetailsForEdit();
         try {
-            loadVideosForEditDelete(); 
+            loadVideosForEditDelete();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao carregar vídeos para edição/exclusão: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -1700,7 +1742,7 @@ public class TutorPanel extends JPanel {
         try {
             moduloDAO.atualizar(selectedModulo);
             JOptionPane.showMessageDialog(this, "Módulo atualizado com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            loadCoursesIntoComboBoxes(); 
+            loadCoursesIntoComboBoxes();
             loadAllModulesForComboBoxes();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar módulo: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -1746,7 +1788,7 @@ public class TutorPanel extends JPanel {
             try {
                 moduloDAO.deletar(selectedModulo.getId());
                 JOptionPane.showMessageDialog(this, "Módulo excluído com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                loadCoursesIntoComboBoxes(); 
+                loadCoursesIntoComboBoxes();
                 loadAllModulesForComboBoxes();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erro ao excluir módulo: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -1767,7 +1809,7 @@ public class TutorPanel extends JPanel {
 
         if (loggedInTutor == null) return;
 
-       
+
         List<Curso> allCourses = cursoDAO.listarPorTutor(loggedInTutor.getId());
         for (Curso curso : allCourses) {
             List<Modulo> modules = moduloDAO.listarPorCurso(curso.getId());
@@ -1848,7 +1890,7 @@ public class TutorPanel extends JPanel {
             videoAulaDAO.postar(novaVideoAula, selectedModulo.getId());
             JOptionPane.showMessageDialog(this, "Videoaula adicionada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             clearAddVideoaulaFields();
-            loadVideosForEditDelete(); 
+            loadVideosForEditDelete();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao adicionar videoaula: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -1872,12 +1914,12 @@ public class TutorPanel extends JPanel {
                 if (moduloDaVideoaula != null) {
                     cursoDoModuloDaVideoaula = cursoDAO.buscarCursoPorModulo(moduloDaVideoaula.getId());
                 } else {
-                     JOptionPane.showMessageDialog(this, "Módulo da videoaula não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
-                     return;
+                    JOptionPane.showMessageDialog(this, "Módulo da videoaula não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
             } else {
-                 JOptionPane.showMessageDialog(this, "Videoaula ou ID do módulo não encontrados.", "Erro", JOptionPane.ERROR_MESSAGE);
-                 return;
+                JOptionPane.showMessageDialog(this, "Videoaula ou ID do módulo não encontrados.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Erro SQL ao verificar autoria da videoaula: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -1933,12 +1975,12 @@ public class TutorPanel extends JPanel {
                 if (moduloDaVideoaula != null) {
                     cursoDoModuloDaVideoaula = cursoDAO.buscarCursoPorModulo(moduloDaVideoaula.getId());
                 } else {
-                     JOptionPane.showMessageDialog(this, "Módulo da videoaula não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
-                     return;
+                    JOptionPane.showMessageDialog(this, "Módulo da videoaula não encontrado.", "Erro", JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
             } else {
-                 JOptionPane.showMessageDialog(this, "Videoaula ou ID do módulo não encontrados.", "Erro", JOptionPane.ERROR_MESSAGE);
-                 return;
+                JOptionPane.showMessageDialog(this, "Videoaula ou ID do módulo não encontrados.", "Erro", JOptionPane.ERROR_MESSAGE);
+                return;
             }
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Erro SQL ao verificar autoria da videoaula: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -1963,7 +2005,7 @@ public class TutorPanel extends JPanel {
             try {
                 videoAulaDAO.deletar(selectedVideo.getId());
                 JOptionPane.showMessageDialog(this, "Videoaula excluída com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                loadVideosForEditDelete(); 
+                loadVideosForEditDelete();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erro ao excluir videoaula: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
@@ -2000,7 +2042,7 @@ public class TutorPanel extends JPanel {
 
     private void loadEditPostagemModulesForCourse() {
         editPostagemModuloFilterComboBoxModel.removeAllElements();
-        editPostagemModuloFilterComboBox.setEnabled(editPostagemForModuloRadio.isSelected()); 
+        editPostagemModuloFilterComboBox.setEnabled(editPostagemForModuloRadio.isSelected());
 
         if (editPostagemForModuloRadio.isSelected()) {
             Curso selectedCourse = (Curso) editPostagemCourseFilterComboBox.getSelectedItem();
@@ -2023,9 +2065,7 @@ public class TutorPanel extends JPanel {
         editDeletePostagemComboBoxModel.removeAllElements();
         if (loggedInTutor == null) return;
 
-        List<Postagem> postagens = null;
 
-   
         editPostagemModuloFilterComboBoxModel.removeAllElements();
         editPostagemModuloFilterComboBox.setEnabled(false);
 
@@ -2038,14 +2078,17 @@ public class TutorPanel extends JPanel {
                     editPostagemContentArea.setText("");
                     return;
                 }
-                postagens = postagemDAO.listarPorCursoSemModulo(selectedCourse.getId());
-            
+                List<Postagem> postagens = postagemDAO.listarPorCursoSemModulo(selectedCourse.getId());
+
                 postagens.removeIf(p -> p.getModulo() != null && p.getModulo().getId() != 0);
+                for (Postagem postagem : postagens) {
+                    editDeletePostagemComboBoxModel.addElement(postagem);
+                }
             }
         } else if (editPostagemForModuloRadio.isSelected()) {
-            editPostagemModuloFilterComboBox.setEnabled(true); 
+            editPostagemModuloFilterComboBox.setEnabled(true);
 
-       
+
             Curso selectedCourse = (Curso) editPostagemCourseFilterComboBox.getSelectedItem();
             if (selectedCourse != null) {
                 if (loggedInTutor == null || selectedCourse.getTutor() == null || selectedCourse.getTutor().getId() != loggedInTutor.getId()) {
@@ -2075,13 +2118,10 @@ public class TutorPanel extends JPanel {
                     editPostagemContentArea.setText("");
                     return;
                 }
-                postagens = postagemDAO.listarPorModulo(selectedModulo.getId());
-            }
-        }
-
-        if (postagens != null) {
-            for (Postagem postagem : postagens) {
-                editDeletePostagemComboBoxModel.addElement(postagem);
+                List<Postagem> postagens = postagemDAO.listarPorModulo(selectedModulo.getId());
+                for (Postagem postagem : postagens) {
+                    editDeletePostagemComboBoxModel.addElement(postagem);
+                }
             }
         }
 
@@ -2109,7 +2149,7 @@ public class TutorPanel extends JPanel {
             return;
         }
 
-       
+
         Postagem novaPostagem = new Postagem();
         novaPostagem.setTitulo(titulo);
         novaPostagem.setConteudo(conteudo);
@@ -2155,7 +2195,7 @@ public class TutorPanel extends JPanel {
             postagemDAO.postar(novaPostagem);
             JOptionPane.showMessageDialog(this, "Postagem criada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             clearCreatePostagemFields();
-            loadPostagensForEditDelete(); 
+            loadPostagensForEditDelete();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao criar postagem: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
@@ -2204,7 +2244,7 @@ public class TutorPanel extends JPanel {
         try {
             postagemDAO.atualizar(selectedPostagem);
             JOptionPane.showMessageDialog(this, "Postagem atualizada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-            loadPostagensForEditDelete(); 
+            loadPostagensForEditDelete();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao atualizar postagem: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();

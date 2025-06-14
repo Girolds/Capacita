@@ -1,23 +1,33 @@
 package view;
 
-import model.Aluno;
-import model.Tutor;
-import model.Usuario;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-
-import config.Conectante;
-import main.CapacitaGUI;
-
-import java.awt.*;
-import utils.SecurityUtils;
-
+import java.awt.Color;
+import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import config.Conectante;
+import model.Aluno;
+import model.Tutor;
+import model.Usuario;
+import utils.SecurityUtils;
 
 public class LoginPanel extends JPanel {
     private JTextField emailField;

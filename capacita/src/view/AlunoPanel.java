@@ -1,22 +1,16 @@
 package view;
 
-import DAO.AlunoDAO;
-import DAO.CursoDAO;
-import DAO.ModuloDAO;
-import DAO.PostagemDAO;
-import DAO.VideoAulaDAO;
-import model.Aluno;
-import model.Curso;
-import model.Modulo;
-import model.Postagem;
-import model.VideoAula;
-import model.Usuario; // Importar Usuario para setLoggedInUser
-import utils.SecurityUtils;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Rectangle; 
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -25,18 +19,44 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.List;
 
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.ListCellRenderer;
+import javax.swing.ListSelectionModel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
+import DAO.AlunoDAO;
+import DAO.CursoDAO;
+import DAO.ModuloDAO;
+import DAO.PostagemDAO;
+import DAO.VideoAulaDAO;
 import config.Conectante;
-import main.CapacitaGUI;
+import model.Aluno;
+import model.Curso;
+import utils.SecurityUtils;
 
 public class AlunoPanel extends JPanel {
     private Aluno loggedInAluno;
-    private CapacitaGUI parentFrame; 
+    private final CapacitaGUI parentFrame;
 
     private JTextField nameProfileField;
     private JTextField emailProfileField;
     private JPasswordField passwordProfileField;
 
-    private AlunoDAO alunoDAO = new AlunoDAO(); 
+    private AlunoDAO alunoDAO = new AlunoDAO();
     private CursoDAO cursoDAO = new CursoDAO();
     private ModuloDAO moduloDAO = new ModuloDAO();
     private PostagemDAO postagemDAO = new PostagemDAO();
@@ -47,14 +67,14 @@ public class AlunoPanel extends JPanel {
     private JList<Curso> enrolledCoursesList;
     private DefaultListModel<Curso> enrolledCoursesListModel;
 
-    private JPanel cardPanel; 
-    private CardLayout cardLayout; 
+    private JPanel cardPanel;
+    private CardLayout cardLayout;
 
-    private CursoDetalhesPanelAluno cursoDetalhesPanelAluno; 
+    private CursoDetalhesPanelAluno cursoDetalhesPanelAluno;
 
     private class CursoCellRenderer extends JPanel implements ListCellRenderer<Curso> {
         private JLabel titleLabel;
-        private JLabel tutorLabel; 
+        private JLabel tutorLabel;
         private JTextArea descriptionArea;
         private JLabel areaLabel;
         public JButton enrollButtonCell;
@@ -62,83 +82,83 @@ public class AlunoPanel extends JPanel {
         public JButton unenrollButtonCell;
         private JPanel buttonsPanel;
 
-        private final Dimension BUTTON_SIZE_ENROLL = new Dimension(100, 28); 
-        private final Dimension BUTTON_SIZE_INSCRITO = new Dimension(80, 28); 
-        private final Dimension BUTTON_SIZE_DETAILS = new Dimension(110, 28); 
-        private final Dimension BUTTON_SIZE_UNENROLL = new Dimension(140, 28); 
+        private final Dimension BUTTON_SIZE_ENROLL = new Dimension(100, 28);
+        private final Dimension BUTTON_SIZE_INSCRITO = new Dimension(80, 28);
+        private final Dimension BUTTON_SIZE_DETAILS = new Dimension(110, 28);
+        private final Dimension BUTTON_SIZE_UNENROLL = new Dimension(140, 28);
 
         public CursoCellRenderer() {
-            setLayout(new BorderLayout(5, 5)); 
-            setBorder(new EmptyBorder(5, 10, 5, 10)); 
+            setLayout(new BorderLayout(5, 5));
+            setBorder(new EmptyBorder(5, 10, 5, 10));
             setBackground(Color.WHITE);
-            
+
             setBorder(BorderFactory.createCompoundBorder(
-                    new LineBorder(new Color(200, 200, 200), 1), 
-                    new EmptyBorder(5, 10, 5, 10) 
+                    new LineBorder(new Color(200, 200, 200), 1),
+                    new EmptyBorder(5, 10, 5, 10)
             ));
 
             titleLabel = new JLabel();
             titleLabel.setFont(new Font("Arial", Font.BOLD, 16));
-            titleLabel.setForeground(new Color(50, 50, 150)); 
+            titleLabel.setForeground(new Color(50, 50, 150));
 
-            tutorLabel = new JLabel(); 
-            tutorLabel.setFont(new Font("Arial", Font.PLAIN, 11)); 
-            tutorLabel.setForeground(new Color(150, 50, 50)); 
+            tutorLabel = new JLabel();
+            tutorLabel.setFont(new Font("Arial", Font.PLAIN, 11));
+            tutorLabel.setForeground(new Color(150, 50, 50));
 
             descriptionArea = new JTextArea();
-            descriptionArea.setFont(new Font("Arial", Font.PLAIN, 12)); 
-            descriptionArea.setLineWrap(true); 
-            descriptionArea.setWrapStyleWord(true); 
+            descriptionArea.setFont(new Font("Arial", Font.PLAIN, 12));
+            descriptionArea.setLineWrap(true);
+            descriptionArea.setWrapStyleWord(true);
             descriptionArea.setEditable(false);
-            descriptionArea.setBackground(getBackground()); 
-            descriptionArea.setForeground(Color.BLACK); 
-            descriptionArea.setRows(4); 
-            descriptionArea.setMinimumSize(new Dimension(10, 60)); 
-            descriptionArea.setPreferredSize(new Dimension(250, 60)); 
+            descriptionArea.setBackground(getBackground());
+            descriptionArea.setForeground(Color.BLACK);
+            descriptionArea.setRows(4);
+            descriptionArea.setMinimumSize(new Dimension(10, 60));
+            descriptionArea.setPreferredSize(new Dimension(250, 60));
 
             areaLabel = new JLabel();
-            areaLabel.setFont(new Font("Arial", Font.ITALIC, 11)); 
-            areaLabel.setForeground(new Color(100, 100, 100)); 
+            areaLabel.setFont(new Font("Arial", Font.ITALIC, 11));
+            areaLabel.setForeground(new Color(100, 100, 100));
 
-            enrollButtonCell = new JButton(); 
+            enrollButtonCell = new JButton();
             enrollButtonCell.setFont(new Font("Arial", Font.BOLD, 12));
-            enrollButtonCell.setFocusPainted(false); 
-            enrollButtonCell.setPreferredSize(BUTTON_SIZE_ENROLL); 
-            enrollButtonCell.setMaximumSize(BUTTON_SIZE_ENROLL); 
+            enrollButtonCell.setFocusPainted(false);
+            enrollButtonCell.setPreferredSize(BUTTON_SIZE_ENROLL);
+            enrollButtonCell.setMaximumSize(BUTTON_SIZE_ENROLL);
 
-            detailsButtonCell = new JButton("Ver Detalhes"); 
+            detailsButtonCell = new JButton("Ver Detalhes");
             detailsButtonCell.setFont(new Font("Arial", Font.BOLD, 12));
-            detailsButtonCell.setFocusPainted(false); 
-            detailsButtonCell.setPreferredSize(BUTTON_SIZE_DETAILS); 
-            detailsButtonCell.setMaximumSize(BUTTON_SIZE_DETAILS); 
-            detailsButtonCell.setBackground(new Color(70, 130, 180)); 
+            detailsButtonCell.setFocusPainted(false);
+            detailsButtonCell.setPreferredSize(BUTTON_SIZE_DETAILS);
+            detailsButtonCell.setMaximumSize(BUTTON_SIZE_DETAILS);
+            detailsButtonCell.setBackground(new Color(70, 130, 180));
             detailsButtonCell.setForeground(Color.WHITE);
 
-            unenrollButtonCell = new JButton("Cancelar Inscrição"); 
+            unenrollButtonCell = new JButton("Cancelar Inscrição");
             unenrollButtonCell.setFont(new Font("Arial", Font.BOLD, 12));
             unenrollButtonCell.setFocusPainted(false);
             unenrollButtonCell.setPreferredSize(BUTTON_SIZE_UNENROLL);
             unenrollButtonCell.setMaximumSize(BUTTON_SIZE_UNENROLL);
-            unenrollButtonCell.setBackground(new Color(220, 20, 60)); 
+            unenrollButtonCell.setBackground(new Color(220, 20, 60));
             unenrollButtonCell.setForeground(Color.WHITE);
 
 
             JPanel textContentAndInfoPanel = new JPanel();
-            textContentAndInfoPanel.setLayout(new BoxLayout(textContentAndInfoPanel, BoxLayout.Y_AXIS)); 
+            textContentAndInfoPanel.setLayout(new BoxLayout(textContentAndInfoPanel, BoxLayout.Y_AXIS));
             textContentAndInfoPanel.setBackground(getBackground());
             textContentAndInfoPanel.add(titleLabel);
             textContentAndInfoPanel.add(tutorLabel);
             textContentAndInfoPanel.add(descriptionArea);
             textContentAndInfoPanel.add(areaLabel);
-            textContentAndInfoPanel.setBorder(new EmptyBorder(0, 0, 5, 0)); 
+            textContentAndInfoPanel.setBorder(new EmptyBorder(0, 0, 5, 0));
 
-            buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0)); 
+            buttonsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 5, 0));
             buttonsPanel.setBackground(getBackground());
-            
-            add(textContentAndInfoPanel, BorderLayout.CENTER);
-            add(buttonsPanel, BorderLayout.SOUTH); 
 
-            setPreferredSize(new Dimension(450, 180)); 
+            add(textContentAndInfoPanel, BorderLayout.CENTER);
+            add(buttonsPanel, BorderLayout.SOUTH);
+
+            setPreferredSize(new Dimension(450, 180));
         }
 
         @Override
@@ -152,28 +172,28 @@ public class AlunoPanel extends JPanel {
             descriptionArea.setText(curso.getDescricao());
             areaLabel.setText("Área: " + curso.getArea());
 
-            buttonsPanel.removeAll(); 
-            
+            buttonsPanel.removeAll();
+
             boolean inscrito = (loggedInAluno != null && alunoDAO.isAlunoInscrito(loggedInAluno.getId(), curso.getId()));
 
-            if (list == availableCoursesList) { 
+            if (list == availableCoursesList) {
                 if (inscrito) {
                     enrollButtonCell.setText("Inscrito");
                     enrollButtonCell.setEnabled(false);
-                    enrollButtonCell.setBackground(new Color(173, 216, 230)); 
+                    enrollButtonCell.setBackground(new Color(173, 216, 230));
                     enrollButtonCell.setForeground(Color.DARK_GRAY);
-                    enrollButtonCell.setPreferredSize(BUTTON_SIZE_INSCRITO); 
+                    enrollButtonCell.setPreferredSize(BUTTON_SIZE_INSCRITO);
                     enrollButtonCell.setMaximumSize(BUTTON_SIZE_INSCRITO);
-                    detailsButtonCell.setVisible(true); 
+                    detailsButtonCell.setVisible(true);
                     detailsButtonCell.setEnabled(true);
                 } else {
                     enrollButtonCell.setText("Inscrever-se");
                     enrollButtonCell.setEnabled(true);
-                    enrollButtonCell.setBackground(new Color(34, 139, 34)); 
+                    enrollButtonCell.setBackground(new Color(34, 139, 34));
                     enrollButtonCell.setForeground(Color.WHITE);
-                    enrollButtonCell.setPreferredSize(BUTTON_SIZE_ENROLL); 
+                    enrollButtonCell.setPreferredSize(BUTTON_SIZE_ENROLL);
                     enrollButtonCell.setMaximumSize(BUTTON_SIZE_ENROLL);
-                    detailsButtonCell.setVisible(false); 
+                    detailsButtonCell.setVisible(false);
                     detailsButtonCell.setEnabled(false);
                 }
                 buttonsPanel.add(enrollButtonCell);
@@ -181,39 +201,39 @@ public class AlunoPanel extends JPanel {
                     buttonsPanel.add(detailsButtonCell);
                 }
 
-            } else if (list == enrolledCoursesList) { 
-                enrollButtonCell.setText("Inscrito"); 
+            } else if (list == enrolledCoursesList) {
+                enrollButtonCell.setText("Inscrito");
                 enrollButtonCell.setEnabled(false);
-                enrollButtonCell.setBackground(new Color(173, 216, 230)); 
+                enrollButtonCell.setBackground(new Color(173, 216, 230));
                 enrollButtonCell.setForeground(Color.DARK_GRAY);
-                enrollButtonCell.setPreferredSize(BUTTON_SIZE_INSCRITO); 
+                enrollButtonCell.setPreferredSize(BUTTON_SIZE_INSCRITO);
                 enrollButtonCell.setMaximumSize(BUTTON_SIZE_INSCRITO);
 
-                detailsButtonCell.setVisible(true); 
+                detailsButtonCell.setVisible(true);
                 detailsButtonCell.setEnabled(true);
-                unenrollButtonCell.setVisible(true); 
+                unenrollButtonCell.setVisible(true);
                 unenrollButtonCell.setEnabled(true);
 
-                buttonsPanel.add(unenrollButtonCell); 
-                buttonsPanel.add(detailsButtonCell); 
+                buttonsPanel.add(unenrollButtonCell);
+                buttonsPanel.add(detailsButtonCell);
             }
 
             if (isSelected) {
                 setBackground(list.getSelectionBackground());
                 titleLabel.setForeground(list.getSelectionForeground());
-                tutorLabel.setForeground(list.getSelectionForeground()); 
+                tutorLabel.setForeground(list.getSelectionForeground());
                 descriptionArea.setForeground(list.getSelectionForeground());
                 areaLabel.setForeground(list.getSelectionForeground());
                 descriptionArea.setBackground(list.getSelectionBackground());
-                buttonsPanel.setBackground(list.getSelectionBackground()); 
+                buttonsPanel.setBackground(list.getSelectionBackground());
             } else {
                 setBackground(list.getBackground());
                 titleLabel.setForeground(new Color(50, 50, 150));
-                tutorLabel.setForeground(new Color(150, 150, 150)); 
+                tutorLabel.setForeground(new Color(150, 150, 150));
                 descriptionArea.setForeground(Color.BLACK);
                 areaLabel.setForeground(new Color(100, 100, 100));
                 descriptionArea.setBackground(list.getBackground());
-                buttonsPanel.setBackground(list.getBackground()); 
+                buttonsPanel.setBackground(list.getBackground());
             }
             return this;
         }
@@ -222,7 +242,7 @@ public class AlunoPanel extends JPanel {
 
     public AlunoPanel(CapacitaGUI parentFrame) {
         this.parentFrame = parentFrame;
-        setLayout(new BorderLayout(10, 10)); 
+        setLayout(new BorderLayout(10, 10));
         setBackground(new Color(240, 248, 255));
         setBorder(new EmptyBorder(10, 10, 10, 10));
 
@@ -232,15 +252,15 @@ public class AlunoPanel extends JPanel {
         add(welcomeLabel, BorderLayout.NORTH);
 
         JPanel sidebarPanel = new JPanel();
-        sidebarPanel.setLayout(new BoxLayout(sidebarPanel, BoxLayout.Y_AXIS)); 
-        sidebarPanel.setBackground(new Color(220, 230, 240)); 
+        sidebarPanel.setLayout(new BoxLayout(sidebarPanel, BoxLayout.Y_AXIS));
+        sidebarPanel.setBackground(new Color(220, 230, 240));
         sidebarPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        add(sidebarPanel, BorderLayout.WEST); 
+        add(sidebarPanel, BorderLayout.WEST);
 
         cardLayout = new CardLayout();
         cardPanel = new JPanel(cardLayout);
         cardPanel.setBackground(new Color(240, 248, 255));
-        add(cardPanel, BorderLayout.CENTER); 
+        add(cardPanel, BorderLayout.CENTER);
 
         JPanel availableCoursesContent = new JPanel(new BorderLayout(5, 5));
         availableCoursesContent.setBackground(new Color(240, 248, 255));
@@ -251,10 +271,10 @@ public class AlunoPanel extends JPanel {
         availableCoursesListModel = new DefaultListModel<>();
         availableCoursesList = new JList<>(availableCoursesListModel);
         availableCoursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        availableCoursesList.setCellRenderer(new CursoCellRenderer()); 
-        availableCoursesList.setFixedCellHeight(180); 
-        availableCoursesList.setFixedCellWidth(450); 
-        availableCoursesList.setLayoutOrientation(JList.VERTICAL); 
+        availableCoursesList.setCellRenderer(new CursoCellRenderer());
+        availableCoursesList.setFixedCellHeight(180);
+        availableCoursesList.setFixedCellWidth(450);
+        availableCoursesList.setLayoutOrientation(JList.VERTICAL);
 
         availableCoursesList.addMouseListener(new MouseAdapter() {
             @Override
@@ -262,32 +282,32 @@ public class AlunoPanel extends JPanel {
                 int index = availableCoursesList.locationToIndex(e.getPoint());
                 if (index != -1) {
                     Curso clickedCourse = availableCoursesListModel.getElementAt(index);
-                    
+
                     Rectangle cellBounds = availableCoursesList.getCellBounds(index, index);
-                    
+
                     CursoCellRenderer tempRenderer = new CursoCellRenderer();
 
                     int clickX = e.getX();
                     int clickY = e.getY();
 
-                    int buttonsPanelY = cellBounds.y + cellBounds.height - tempRenderer.BUTTON_SIZE_ENROLL.height - 5 - 5; 
-                    int currentButtonX = cellBounds.x + 10; 
+                    int buttonsPanelY = cellBounds.y + cellBounds.height - tempRenderer.BUTTON_SIZE_ENROLL.height - 5 - 5;
+                    int currentButtonX = cellBounds.x + 10;
 
                     boolean inscrito = (loggedInAluno != null && alunoDAO.isAlunoInscrito(loggedInAluno.getId(), clickedCourse.getId()));
                     Dimension enrollButtonSize = inscrito ? tempRenderer.BUTTON_SIZE_INSCRITO : tempRenderer.BUTTON_SIZE_ENROLL;
-                    
+
                     Rectangle enrollButtonArea = new Rectangle(currentButtonX, buttonsPanelY, enrollButtonSize.width, enrollButtonSize.height);
 
-                    currentButtonX += enrollButtonSize.width + 5; 
+                    currentButtonX += enrollButtonSize.width + 5;
 
                     Rectangle detailsButtonArea = null;
-                    if (inscrito) { 
+                    if (inscrito) {
                         detailsButtonArea = new Rectangle(currentButtonX, buttonsPanelY, tempRenderer.BUTTON_SIZE_DETAILS.width, tempRenderer.BUTTON_SIZE_DETAILS.height);
                     }
 
-                    if (enrollButtonArea.contains(clickX, clickY) && !inscrito) { 
+                    if (enrollButtonArea.contains(clickX, clickY) && !inscrito) {
                         performEnrollment(clickedCourse);
-                    } else if (detailsButtonArea != null && detailsButtonArea.contains(clickX, clickY) && inscrito) { 
+                    } else if (detailsButtonArea != null && detailsButtonArea.contains(clickX, clickY) && inscrito) {
                         showCourseDetailsPanel(clickedCourse);
                     }
                 }
@@ -295,15 +315,15 @@ public class AlunoPanel extends JPanel {
         });
 
         JScrollPane availableCoursesScrollPane = new JScrollPane(availableCoursesList);
-        availableCoursesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+        availableCoursesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         availableCoursesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         availableCoursesContent.add(availableCoursesScrollPane, BorderLayout.CENTER);
 
-        cardPanel.add(availableCoursesContent, "CursosDisponiveis"); 
+        cardPanel.add(availableCoursesContent, "CursosDisponiveis");
 
-        JPanel myCoursesContent = new JPanel(new BorderLayout(5, 5)); 
+        JPanel myCoursesContent = new JPanel(new BorderLayout(5, 5));
         myCoursesContent.setBackground(new Color(240, 248, 255));
-        myCoursesContent.setBorder(new EmptyBorder(10, 10, 10, 10)); 
+        myCoursesContent.setBorder(new EmptyBorder(10, 10, 10, 10));
 
         JLabel myCoursesLabel = new JLabel("Meus Cursos Inscritos:");
         myCoursesLabel.setFont(new Font("Arial", Font.BOLD, 16));
@@ -314,17 +334,17 @@ public class AlunoPanel extends JPanel {
         enrolledCoursesList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         enrolledCoursesList.setFont(new Font("Monospaced", Font.PLAIN, 14));
         enrolledCoursesList.setCellRenderer(new CursoCellRenderer());
-        enrolledCoursesList.setFixedCellHeight(180); 
-        enrolledCoursesList.setFixedCellWidth(450); 
+        enrolledCoursesList.setFixedCellHeight(180);
+        enrolledCoursesList.setFixedCellWidth(450);
 
-      
+
         enrolledCoursesList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int index = enrolledCoursesList.locationToIndex(e.getPoint());
                 if (index != -1) {
                     Curso clickedCourse = enrolledCoursesListModel.getElementAt(index);
-                    
+
                     Rectangle cellBounds = enrolledCoursesList.getCellBounds(index, index);
                     CursoCellRenderer tempRenderer = new CursoCellRenderer();
 
@@ -332,8 +352,8 @@ public class AlunoPanel extends JPanel {
                     int clickY = e.getY();
 
 
-                    int buttonsPanelY = cellBounds.y + cellBounds.height - tempRenderer.BUTTON_SIZE_UNENROLL.height - 5 - 5; 
-                    int currentButtonX = cellBounds.x + 10; 
+                    int buttonsPanelY = cellBounds.y + cellBounds.height - tempRenderer.BUTTON_SIZE_UNENROLL.height - 5 - 5;
+                    int currentButtonX = cellBounds.x + 10;
 
                     Rectangle unenrollButtonArea = new Rectangle(currentButtonX, buttonsPanelY, tempRenderer.BUTTON_SIZE_UNENROLL.width, tempRenderer.BUTTON_SIZE_UNENROLL.height);
                     currentButtonX += tempRenderer.BUTTON_SIZE_UNENROLL.width + 5;
@@ -350,12 +370,12 @@ public class AlunoPanel extends JPanel {
 
 
         JScrollPane enrolledCoursesScrollPane = new JScrollPane(enrolledCoursesList);
-        enrolledCoursesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS); 
+        enrolledCoursesScrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         enrolledCoursesScrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        
-        myCoursesContent.add(enrolledCoursesScrollPane, BorderLayout.CENTER); 
 
-        cardPanel.add(myCoursesContent, "MeusCursos"); 
+        myCoursesContent.add(enrolledCoursesScrollPane, BorderLayout.CENTER);
+
+        cardPanel.add(myCoursesContent, "MeusCursos");
 
 
         JPanel profileOuterPanel = new JPanel(new GridBagLayout());
@@ -427,7 +447,7 @@ public class AlunoPanel extends JPanel {
         passwordProfileField.setPreferredSize(fieldSize);
         passwordProfileField.setMaximumSize(fieldSize);
         profilePanel.add(passwordProfileField, profileGbc);
-      
+
         profileGbc.gridy++;
         profileGbc.insets = new Insets(20, 0, 10, 0);
         profilePanel.add(Box.createRigidArea(new Dimension(0, 0)), profileGbc);
@@ -448,41 +468,56 @@ public class AlunoPanel extends JPanel {
             String newPassword = new String(passwordProfileField.getPassword());
             updateAlunoProfile(newName, newEmail, newPassword);
 
-            setLoggedInAluno(loggedInAluno); 
+            setLoggedInAluno(loggedInAluno);
         });
         profilePanel.add(updateProfileButton, profileGbc);
         profileOuterPanel.add(profilePanel, outerGbc);
-        cardPanel.add(profileOuterPanel, "EditarPerfil"); 
+        cardPanel.add(profileOuterPanel, "EditarPerfil");
 
-      
-        cursoDetalhesPanelAluno = new CursoDetalhesPanelAluno(); 
-        cardPanel.add(cursoDetalhesPanelAluno, "CourseDetails"); 
+
+        cursoDetalhesPanelAluno = new CursoDetalhesPanelAluno();
+        cardPanel.add(cursoDetalhesPanelAluno, "CourseDetails");
+
+        // Botão para a nova página "Sobre"
+        JPanel sobrePanelContainer = new JPanel(new BorderLayout());
+        sobrePanelContainer.setBackground(new Color(240, 248, 255));
+        sobrePanelContainer.add(new SobrePanel(), BorderLayout.CENTER);
+        cardPanel.add(sobrePanelContainer, "Sobre");
+
 
         JButton btnAvailableCourses = createSidebarButton("Cursos Disponíveis");
         btnAvailableCourses.addActionListener(e -> {
             cardLayout.show(cardPanel, "CursosDisponiveis");
-            loadAvailableCourses(); 
+            loadAvailableCourses();
         });
         sidebarPanel.add(btnAvailableCourses);
-        sidebarPanel.add(Box.createRigidArea(new Dimension(0, 5))); 
+        sidebarPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         JButton btnMyCourses = createSidebarButton("Meus Cursos");
         btnMyCourses.addActionListener(e -> {
             cardLayout.show(cardPanel, "MeusCursos");
-            loadEnrolledCourses(); 
+            loadEnrolledCourses();
         });
         sidebarPanel.add(btnMyCourses);
-        sidebarPanel.add(Box.createRigidArea(new Dimension(0, 5))); 
+        sidebarPanel.add(Box.createRigidArea(new Dimension(0, 5)));
 
         JButton btnEditProfile = createSidebarButton("Editar Perfil");
         btnEditProfile.addActionListener(e -> {
             cardLayout.show(cardPanel, "EditarPerfil");
             nameProfileField.setText(loggedInAluno.getNome());
             emailProfileField.setText(loggedInAluno.getEmail());
-            passwordProfileField.setText(""); 
+            passwordProfileField.setText("");
         });
         sidebarPanel.add(btnEditProfile);
-        sidebarPanel.add(Box.createVerticalGlue()); 
+        sidebarPanel.add(Box.createRigidArea(new Dimension(0, 5))); // Espaçamento entre botões
+
+        // Adicionando o botão "Sobre" à sidebar
+        JButton btnSobre = createSidebarButton("Sobre");
+        btnSobre.addActionListener(e -> {
+            cardLayout.show(cardPanel, "Sobre"); // Mostra o painel "Sobre"
+        });
+        sidebarPanel.add(btnSobre);
+        sidebarPanel.add(Box.createVerticalGlue());
 
         cardLayout.show(cardPanel, "CursosDisponiveis");
 
@@ -500,27 +535,27 @@ public class AlunoPanel extends JPanel {
     private JButton createSidebarButton(String text) {
         JButton button = new JButton(text);
         button.setFont(new Font("Arial", Font.BOLD, 14));
-        button.setBackground(new Color(100, 149, 237)); 
+        button.setBackground(new Color(100, 149, 237));
         button.setForeground(Color.WHITE);
         button.setFocusPainted(false);
-        button.setAlignmentX(Component.CENTER_ALIGNMENT); 
-        button.setMaximumSize(new Dimension(180, 40)); 
-        button.setPreferredSize(new Dimension(180, 40)); 
+        button.setAlignmentX(Component.CENTER_ALIGNMENT);
+        button.setMaximumSize(new Dimension(180, 40));
+        button.setPreferredSize(new Dimension(180, 40));
         return button;
     }
 
     public void showCourseDetailsPanel(Curso curso) {
- 
-        if (loggedInAluno != null) { 
+
+        if (loggedInAluno != null) {
             cursoDetalhesPanelAluno.setLoggedInUser(loggedInAluno);
         }
-        cursoDetalhesPanelAluno.setCourse(curso); 
-        cardLayout.show(cardPanel, "CourseDetails"); 
+        cursoDetalhesPanelAluno.setCourse(curso);
+        cardLayout.show(cardPanel, "CourseDetails");
     }
 
     public void showAvailableCoursesPanel() {
         cardLayout.show(cardPanel, "CursosDisponiveis");
-        loadAvailableCourses(); 
+        loadAvailableCourses();
     }
 
     public void setLoggedInAluno(Aluno aluno) {
@@ -529,7 +564,7 @@ public class AlunoPanel extends JPanel {
             ((JLabel) getComponent(0)).setText("Bem-vindo(a), Aluno(a) " + loggedInAluno.getNome() + "!");
             loadAvailableCourses();
             loadEnrolledCourses();
-     
+
             if (cursoDetalhesPanelAluno != null) {
                 cursoDetalhesPanelAluno.setLoggedInUser(loggedInAluno);
             }
@@ -542,7 +577,7 @@ public class AlunoPanel extends JPanel {
 
     private void loadAvailableCourses() {
         availableCoursesListModel.clear();
-        List<Curso> cursos = cursoDAO.listar(); 
+        List<Curso> cursos = cursoDAO.listar();
         for (Curso curso : cursos) {
             availableCoursesListModel.addElement(curso);
         }
@@ -553,7 +588,7 @@ public class AlunoPanel extends JPanel {
         try (Connection con = Conectante.createConnectionToMySQL()) {
             String sql = "SELECT c.id, c.titulo, c.descricao, c.area, c.id_tutor, u.nome AS nome_tutor " +
                          "FROM Curso c JOIN UsuarioCurso uc ON c.id = uc.id_curso " +
-                         "LEFT JOIN Usuario u ON c.id_tutor = u.id " + 
+                         "LEFT JOIN Usuario u ON c.id_tutor = u.id " +
                          "WHERE uc.id_usuario = ?";
             try (PreparedStatement pstm = con.prepareStatement(sql)) {
                 pstm.setInt(1, loggedInAluno.getId());
@@ -567,12 +602,12 @@ public class AlunoPanel extends JPanel {
 
                         int idTutor = rset.getInt("id_tutor");
                         if (!rset.wasNull()) {
-                            model.Tutor tutor = new model.Tutor(); 
+                            model.Tutor tutor = new model.Tutor();
                             tutor.setId(idTutor);
                             tutor.setNome(rset.getString("nome_tutor"));
                             curso.setTutor(tutor);
                         }
-                        
+
                         enrolledCoursesListModel.addElement(curso);
                     }
                 }
@@ -588,7 +623,7 @@ public class AlunoPanel extends JPanel {
             JOptionPane.showMessageDialog(this, "Nenhum aluno logado para se inscrever.", "Erro", JOptionPane.ERROR_MESSAGE);
             return;
         }
-        
+
         try (Connection con = Conectante.createConnectionToMySQL()) {
             String checkSql = "SELECT COUNT(*) FROM UsuarioCurso WHERE id_usuario = ? AND id_curso = ?";
             try (PreparedStatement checkPstm = con.prepareStatement(checkSql)) {
@@ -610,8 +645,8 @@ public class AlunoPanel extends JPanel {
                 pstm.setInt(4, curso.getId());
                 pstm.execute();
                 JOptionPane.showMessageDialog(this, "Inscrição no curso realizada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                loadAvailableCourses(); 
-                loadEnrolledCourses(); 
+                loadAvailableCourses();
+                loadEnrolledCourses();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Erro ao se inscrever no curso: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
@@ -633,8 +668,8 @@ public class AlunoPanel extends JPanel {
             try {
                 alunoDAO.desinscreverCurso(loggedInAluno.getId(), curso.getId());
                 JOptionPane.showMessageDialog(this, "Inscrição cancelada com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-                loadEnrolledCourses(); 
-                loadAvailableCourses(); 
+                loadEnrolledCourses();
+                loadAvailableCourses();
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "Erro ao cancelar inscrição: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
                 e.printStackTrace();
