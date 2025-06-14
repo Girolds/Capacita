@@ -1,16 +1,31 @@
 package view;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Window;
+
+import javax.swing.BorderFactory; // Importar LineBorder
+import javax.swing.Box;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+
 import DAO.AlunoDAO;
 import DAO.TutorDAO;
-import main.CapacitaGUI;
 import model.Aluno;
 import model.Tutor;
 import utils.SecurityUtils;
-
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder; // Importar LineBorder
-import java.awt.*;
 
 public class CadastroPanel extends JPanel {
     private CapacitaGUI parentFrame;
