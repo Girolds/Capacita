@@ -1,12 +1,12 @@
-O Capacita+ é a sua plataforma online dedicada a capacitar professores e profissionais da educação com foco total na inclusão escolar. Nosso objetivo é fornecer as ferramentas e o conhecimento necessários 
-para criar ambientes de aprendizado mais acessíveis e equitativos.
+O Capacita+ é a sua plataforma dedicada a capacitar professores e profissionais da educação com foco na inclusão escolar. Nosso objetivo é fornecer as ferramentas e o conhecimento necessários para criar ambientes de aprendizado mais acessíveis e equitativos.
 
-Nossos cursos são cuidadosamente estruturados e compostos por:
+Nossos cursos são  estruturados e compostos por:
 
 Módulos didáticos: Abordam temas essenciais como acessibilidade, práticas pedagógicas inovadoras e o uso de tecnologias assistivas.
+
 Postagens: Conteúdo complementar para aprofundar seus conhecimentos.
-Videoaulas: Nossas videoaulas oferecem explicações claras e exemplos práticos para você aplicar no dia a dia. Na plataforma Capacita+, você pode se inscrever nos cursos de seu interesse, acompanhar
-o progresso dos módulos e assistir às videoaulas de forma prática, através dos links disponibilizados.
+
+Videoaulas: Nossas videoaulas oferecem explicações claras e exemplos práticos para você aplicar no dia a dia. Na plataforma Capacita+, você pode se inscrever nos cursos de seu interesse, acompanhar o progresso dos módulos e assistir às videoaulas de forma prática, através dos links disponibilizados.
 
 Tecnologias Utilizadas:
 
@@ -21,15 +21,20 @@ MySQL: Sistema de gerenciamento de banco de dados relacional (SGBD) utilizado pa
 Ambientes de Desenvolvimento:
 
 Eclipse IDE: O Ambiente de Desenvolvimento Integrado (IDE) escolhido para a codificação e gerenciamento do projeto.
+
 Visual Studio Code: Outra IDE também utilizada para a codificação e gerenciamento do projeto.
+
 MySQL Workbench: Ferramenta visual para design, desenvolvimento e administração de bancos de dados MySQL.
 
 Recursos/Funcionalidades Principais:
 Gerenciamento de Cursos:
 
 Inscrição em Cursos: Alunos podem se inscrever em uma variedade de cursos disponíveis na plataforma.
+
 Criação de Cursos: Tutores têm a capacidade de criar e gerenciar novos cursos, definindo seu conteúdo e estrutura através dos módulos.
+
 Criação de Postagens:Tutores podem criar e publicar postagens, promovendo a interação e o compartilhamento de conhecimento dentro da comunidade.
+
 Consumo de Conteúdo Educacional:Acesso ao Conteúdo: Permite aos usuários acessar links das videoaulas postadas e de materiais didáticos.
 
 Passo a passo para executar o sistema
